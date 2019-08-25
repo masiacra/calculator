@@ -34,15 +34,27 @@ function reducer(state=initialState, action) {
 	switch (action.type) {
 		case 'SET_NUMBER':	
 			//Ситуация, когда у нас определено первое числои знак действия
-			if (firstNumber && sign) {
-				const newSecondNumber = secondNumber + payload;
-				return {...state, secondNumber: newSecondNumber};
+			if (firstNumber && sign) { //грамотно обрабатываем нажатие просто точки
+				if (payload === '.' && !secondNumber) {
+					return {...state, secondNumber: '0.'};
+				} else {
+					const newSecondNumber = secondNumber + payload;
+					return {...state, secondNumber: newSecondNumber};
+				}
 			} else {//определяем первое число
 				if (firstNumber === 0) {//если первое число ноль, то заменяем его
-					return {...state, firstNumber: payload};
-				} else if (firstNumber !== 0 && !isResult) { //смотрим ситуацию, когда нажали равно и вводим следующее число
-					const newFirstNumber = firstNumber + payload;
-					return {...state, firstNumber: newFirstNumber};
+					if (payload === '.') {//символ точка, то делаем дробное число
+						return {...state, firstNumber: firstNumber + payload}
+					} else {
+						return {...state, firstNumber: payload};
+					}
+				} else if (firstNumber !== 0 && !isResult) { //смотрим ситуацию, когда нажали равно и вводят следующее число
+					if (payload === '.') {//обработка нажатия точки
+						return {...state, firstNumber: '0.'};
+					} else {
+						const newFirstNumber = firstNumber + payload;
+						return {...state, firstNumber: newFirstNumber};
+					}
 				} else {
 					return {...state, firstNumber: payload, isResult: false};
 				}

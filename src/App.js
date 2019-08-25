@@ -11,6 +11,8 @@ class App extends Component {
 			this.props.getResult();
 		} else if (content === 'C') {
 			this.props.clearScreen();
+		} else if (content === '.') {
+			this.props.setNumber(content);
 		} else if (isNaN(content)) {
 			this.props.setSign(content);
 		} else {
@@ -20,7 +22,7 @@ class App extends Component {
 	
 
 	render() {
-		const buttons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', 'C', '='].map( (number, ind) => {
+		const buttons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', 'C', '=', '.'].map( (number, ind) => {
 			return <Button 
 					 key={ind}
 					 content={number} 
